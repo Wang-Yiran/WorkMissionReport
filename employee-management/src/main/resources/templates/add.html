@@ -1,0 +1,75 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改任务</title>
+    <style type="text/css">
+        body{
+            font-size:16px;
+        }
+
+        a{
+            text-decoration: none;
+        }
+        .class input{
+            margin:auto;
+            width:95%;
+            height: 95%;
+            line-height: 50%;
+        }
+
+        .report{
+            font-family: "Microsoft Yahei";
+            border:1px solid #333;
+            width: 100%;
+            align: center;
+            border-collapse:collapse;
+
+        }
+
+        .area{
+            margin:auto;
+            width:95%;
+            height: 95%;
+        }
+
+    </style>
+</head>
+<body>
+<div><h1>增加任务</h1></div>
+<div>
+    <div><a href="/report">返回</a></div>
+    <form class="iform" th:action="@{/report/add}" th:method="post">
+        <table class="report" border="1">
+            <tr>
+                <th width="5%">序号</th>
+                <th width="10%">姓名</th>
+                <th width="10%">起始日期</th>
+                <th width="10%">截止日期</th>
+                <th width="25%">任务目标</th>
+                <th width="5%">完成率</th>
+                <th width="25%">完成情况</th>
+                <th width="10%">备注</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="提交"/>
+                </td>
+                <td><input type="text" name="username" value="" /></td>
+                <!--<td><input type="text" name="startdate" value="" th:value="${#dates.format(item.startdate,'yyyy-MM-dd')}"/></td>-->
+                <td><input type="text" name="startdate" value="" /></td>
+                <!--<td><input type="text" name="enddate" value="" th:value="${#dates.format(item.enddate,'yyyy-MM-dd')}"/></td>-->
+                <td><input type="text" name="enddate" value="" /></td>
+                <!--<td><input type="text" name="target" value="" th:value="${item.target }" /></td>-->
+                <td><textarea class="area" rows="" cols="" type="text" name="target" ></textarea></td>
+                <td><input type="text" name="finishingRate" value="" /></td>
+                <!--<td><input type="text" name="reporting" value="" th:value="${item.reporting }"/></td>-->
+                <td><textarea class="area" rows="" cols="" type="text" name="reporting"  ></textarea></td>
+                <td><textarea class="area" rows="" cols="" type="text" name="remark" ></textarea></td>
+                <!--<td><input type="text" name="remark" value="" th:value="${item.remark }"/></td>-->
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

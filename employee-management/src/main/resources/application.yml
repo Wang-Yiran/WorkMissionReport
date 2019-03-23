@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    druid:
+      #url: jdbc:mysql://172.16.175.135:3306/management?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+      url: jdbc:mysql://192.168.0.166:3306/management?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+      username: zero
+      password: zero
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      test-on-borrow: true
+      # MySQL 8.x: com.mysql.cj.jdbc.Driver
+      driver-class-name: com.mysql.jdbc.Driver
+  thymeleaf:
+    cache: false #开发时关闭缓存，不然没法看到实时页面
+    mode: HTML #用非严格的HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+
+mybatis:
+  type-aliases-package: com.wangyiran.employee.management.entity #实体类的存放路径，如：com.funtl.hello.spring.boot.entity
+  mapper-locations: classpath:mapper/*Mapper.xml
+
+server:
+  port: 8086
+  servlet:
+    context-path: #/boot
+
+logging:
+  file: ../logs/spring-boot-hello-mybatis.log
+  level.org.springframework.web: DEBUG

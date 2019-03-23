@@ -1,0 +1,170 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Workmate</title>
+    <style type="text/css">
+        .table{
+            margin: auto;
+            /*border:1px solid #333;*/
+            /*width: 800px;*/
+        }
+
+        .report{
+            font-family: "Microsoft Yahei";
+            border:1px solid #333;
+            width: 100%;
+            align: center;
+            border-collapse:collapse;
+
+        }
+
+        .report th{
+            border: 1px solid #333;
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        .report td{
+            border: 1px solid #333;
+            margin: 0px auto;
+            text-align: center;
+        }
+
+        a{
+            text-decoration: none;
+        }
+
+        .class input{
+            margin:auto;
+            width:95%;
+            height: 95%;
+            line-height: 50%;
+        }
+
+        .report{
+            font-family: "Microsoft Yahei";
+            border:1px solid #333;
+            width: 100%;
+            text-align: center;
+            border-collapse:collapse;
+
+        }
+
+        .area{
+            margin:auto;
+            width:95%;
+            height: 95%;
+        }
+
+        .report .align-left{
+            text-align: left;
+        }
+
+    </style>
+</head>
+<body>
+<div><h1>工作任务表</h1></div>
+<!--<div><a href="/report" th:href="@{/report/add}">增加任务</a></div>-->
+<div><h2>增加任务</h2></div>
+
+<div>
+    <form class="iform" th:action="@{/report/add}" th:method="post">
+        <table class="report" border="1">
+            <tr>
+                <th width="5%">序号</th>
+                <th width="10%">姓名</th>
+                <th width="10%">起始日期</th>
+                <th width="10%">截止日期</th>
+                <th width="25%">任务目标</th>
+                <th width="5%">完成率</th>
+                <th width="25%">完成情况</th>
+                <th width="10%">备注</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="提交"/>
+                </td>
+                <td><input type="text" name="username" value="" /></td>
+                <!--<td><input type="text" name="startdate" value="" th:value="${#dates.format(item.startdate,'yyyy-MM-dd')}"/></td>-->
+                <td><input type="text" name="startdate" value="" /></td>
+                <!--<td><input type="text" name="enddate" value="" th:value="${#dates.format(item.enddate,'yyyy-MM-dd')}"/></td>-->
+                <td><input type="text" name="enddate" value="" /></td>
+                <!--<td><input type="text" name="target" value="" th:value="${item.target }" /></td>-->
+                <td><textarea class="area" rows="" cols="" type="text" name="target" ></textarea></td>
+                <td><input type="text" name="finishingRate" value="" /></td>
+                <!--<td><input type="text" name="reporting" value="" th:value="${item.reporting }"/></td>-->
+                <td><textarea class="area" rows="" cols="" type="text" name="reporting"  ></textarea></td>
+                <td><textarea class="area" rows="" cols="" type="text" name="remark" ></textarea></td>
+                <!--<td><input type="text" name="remark" value="" th:value="${item.remark }"/></td>-->
+            </tr>
+        </table>
+    </form>
+</div>
+<div>
+    <h2>查询</h2>
+</div>
+<div>
+    <form class="iform" th:action="@{/report/find}" th:method="post">
+        <table class="report" border="1">
+            <tr><input type="submit" value="查询"/></tr>
+            <tr>
+                <th width="10%">页码</th>
+                <th width="10%">每页数量</th>
+                <th width="50%">姓名</th>
+                <th width="15%">起始日期</th>
+                <th width="15%">截止日期</th>
+                <th width="10%">完成情况</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="page" value="1" th:value="${page}"/>
+                </td>
+                <td>
+                    <input type="text" name="offset" value="10" th:value="${offset}"/>
+                </td>
+                <td><input type="text" name="report.username" value="" /></td>
+                <td><input type="text" name="report.startdate" value="" /></td>
+                <td><input type="text" name="report.enddate" value="" /></td>
+                <td><input type="text" name="report.finishingRate" value="" /></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div><h2>任务列表</h2></div>
+<div class="table">
+    <table class="report">
+        <tr>
+            <th width="5%">序号</th>
+            <th width="10%">姓名</th>
+            <th width="10%">起始日期</th>
+            <th width="10%">截止日期</th>
+            <th width="25%">任务目标</th>
+            <th width="5%">完成率</th>
+            <th width="25%">完成情况</th>
+            <th width="10%">备注</th>
+        </tr>
+
+        <!--<select lay-verify="required" name="class" lay-filter="column">-->
+            <!--<option   th:each="items:${itemsList}" th:value="${items.username}" th:text="${items.target}"></option>-->
+        <!--</select>-->
+        <tr th:each="item: ${itemsList } ">
+            <td ><a href="/report" th:href="@{/report/edit(id=${item.id})}">修改</a><br/><br/>
+                <a href="/report" th:href="@{/report/delete(id=${item.id})}">删除</a></td>
+            <!--<td th:text="{item.id}"></td>-->
+            <td th:text="${item.username }" th:bgcolor="${item.color}"></td>
+            <td th:text="${#calendars.format(item.startdate,'yyyy-MM-dd')}"></td>
+            <td th:text="${#calendars.format(item.enddate,'yyyy-MM-dd')}"></td>
+            <td class="align-left" th:text="${item.target }"></td>
+            <td th:text="${item.finishingRate }"></td>
+            <td class="align-left" th:text="${item.reporting }"></td>
+            <td th:text="${item.remark}"></td>
+        </tr>
+    </table>
+  <!--<span th:text="${user.username}">Hello default Admin</span>-->
+</div>
+
+</body>
+</html>
