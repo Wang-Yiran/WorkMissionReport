@@ -1,0 +1,3 @@
+# WorkMissionReport
+springboot框架的工作任务汇报工具
+已经能够实现在网页下/report 页面下进行工作汇报
