@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>修改任务</title>
+    <title>修改测试报告</title>
     <style type="text/css">
         body{
             font-size:16px;
@@ -42,28 +42,28 @@
 <body>
 <div><h1>修改任务完成情况</h1></div>
 <div>
-    <div><a href="/report">返回</a></div>
-    <form class="iform" th:action="@{/report/edit}" th:method="post" th:object="${item}">
+    <div><a href="/test/report">返回</a></div>
+    <form class="iform" th:action="@{/test/report/edit}" th:method="post" th:object="${item}">
         <table class="report" border="1">
             <tr>
                 <th width="5%">功能</th>
                 <th width="10%">姓名</th>
-                <th width="10%">起始日期</th>
-                <th width="10%">截止日期</th>
-                <th width="25%">任务目标</th>
-                <th width="5%">完成率</th>
-                <th width="25%">完成情况</th>
+                <th width="10%">测试日期</th>
+                <th width="15%">测试模块</th>
+                <th width="10%">问题类型</th>
+                <th width="30%">问题描述</th>
+                <th width="10%">问题状态</th>
                 <th width="10%">备注</th>
             </tr>
             <tr>
                 <td>修改前</td>
-                <td th:text="${item.username}"></td>
-                <td th:text="${#dates.format(item.startdate,'yyyy-MM-dd')}"></td>
-                <td th:text="${#dates.format(item.enddate,'yyyy-MM-dd')}"></td>
-                <td class="align-left" th:text="${item.target}"></td>
-                <td th:text="${item.finishingRate }"></td>
-                <td class="align-left" th:text="${item.reporting }"></td>
-                <td th:text="${item.remark }"></td>
+                <td th:text="${item.username}" th:bgcolor="${item.color}"></td>
+                <td th:text="${#calendars.format(item.startdate,'yyyy-MM-dd')}"></td>
+                <td th:text="${item.module}"></td>
+                <td th:text="${item.problemType }"></td>
+                <td class="align-left" th:text="${item.problemDescribe }"></td>
+                <td th:text="${item.problemStatus }"></td>
+                <td th:text="${item.remark}"></td>
             </tr>
             <tr>
                 <td>
@@ -71,16 +71,21 @@
                     <input type="submit" value="保存"/>
                 </td>
                 <td><input type="text" name="username" value="" th:value="${item.username }" /></td>
-                <td><input type="date" name="startdate" value="" th:value="${#dates.format(item.startdate,'yyyy-MM-dd')}"/></td>
+                <td><input type="text" name="startdate" value="" th:value="${#dates.format(item.startdate,'yyyy-MM-dd')}"/></td>
                 <!--<td><input type="text" name="startdate" value="" /></td>-->
-                <td><input type="date" name="enddate" value="" th:value="${#dates.format(item.enddate,'yyyy-MM-dd')}"/></td>
+                <td><input type="text" name="module" value="" th:value="${item.module}"/></td>
                 <!--<td><input type="text" name="enddate" value="" /></td>-->
                 <!--<td><input type="text" name="target" value="" th:value="${item.target }" /></td>-->
-                <td><textarea class="area" rows="" cols="" type="text" name="target" th:text="${item.target }" ></textarea></td>
-                <td><input type="text" name="finishingRate" value="" th:value="${item.finishingRate }"/></td>
+                <td><input type="text" name="problemType" value="" th:value="${item.problemType }" /></td>
+                <td><textarea class="area" rows="" cols="" type="text" name="problemDescribe" th:text="${item.problemDescribe }"></textarea></textarea></td>
                 <!--<td><input type="text" name="reporting" value="" th:value="${item.reporting }"/></td>-->
-                <td><textarea class="area" rows="" cols="" type="text" name="reporting" th:text="${item.reporting }" ></textarea></td>
-                <td><textarea class="area" rows="" cols="" type="text" name="remark" th:text="${item.remark }" ></textarea></td>
+                <td align="left">
+                    <input type="radio" name="problemStatus" value="未解决" />未解决<br>
+                    <input type="radio" name="problemStatus" value="测试未通过" />测试未通过<br>
+                    <input type="radio" name="problemStatus" value="测试通过" checked/>测试通过<br>
+                    <input type="radio" name="problemStatus" value="其他" />其他
+                </td>
+                <td><input type="text" name="remark" value="" th:value="${item.remark }" ></td>
                 <!--<td><input type="text" name="remark" value="" th:value="${item.remark }"/></td>-->
             </tr>
         </table>

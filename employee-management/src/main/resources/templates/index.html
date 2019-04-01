@@ -4,8 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello Thymeleaf</title>
+    <style type="text/css">
+        .span {
+            line-height: 50px;
+            margin:10px;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:hover{
+            color: gold;
+        }
+        li{
+            line-height: 36px;
+        }
+    </style>
 </head>
 <body>
-  <span th:text="${user.username}">Hello default Admin</span>
+  <span class="span" th:each="user:${users}" th:text="${user.username}">Hello default Admin</span>
+    <span>你们好！</span>
+</body>
+  <ul>
+    <li><a href="/report">每周工作汇报</a></li>
+      <li><a href="/test/report">测试工作汇报</a></li>
+  </ul>
+
+<div><h3>更新日志</h3>
+    <p>1.1版本</p>
+    <ul>
+        <li>1.1.0:增加了测试报告模块beta，欢迎协助测试</li>
+    </ul>
+    <p>1.0版本</p>
+    <ul>
+        <li>1.0.0:实现报告的增删改功能</li>
+        <li>1.0.1:实现查询功能，修复bug，并将增加任务整合到首页</li>
+        <li>1.0.2:修复bug，在修改功能中加入一行修改前的结果方便对照</li>
+        <li>1.0.3:修复部分bug，增加三个员工对应的颜色判断，将日期字段设置为日历模式，修复查询时，enddate少8小时的bug</li>
+        <li>1.0.4:增加了表格中任务目标和完成情况的自动换行，测试页面正在开发中</li>
+    </ul></div>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.wangyiran.employee.management.controller;
 
 import com.wangyiran.employee.management.entity.Report;
+import com.wangyiran.employee.management.entity.User;
+import com.wangyiran.employee.management.mapper.UserMapper;
 import com.wangyiran.employee.management.po.ReportReq;
 import com.wangyiran.employee.management.service.MainService;
 import com.wangyiran.employee.management.util.DateAdd8Hour;
@@ -26,13 +28,16 @@ public class MainController {
     @Autowired
     private MainService mainService;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
     public String index(Model model){
 
-        Report report = new Report();
-        report.setUsername("Hello World!");
+        List<User> users = userMapper.selectAll();
 
-        model.addAttribute("user", report);
+
+        model.addAttribute("users", users);
         return "index";
     }
 
@@ -55,6 +60,16 @@ public class MainController {
         }
         model.addAttribute("page", reportReq.getPage());
         model.addAttribute("offset", reportReq.getOffset());
+        //时间处理工具 获取的日期加了8小时，要加8小时，存入的世界时间才是当天
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        if(reportReq.getReport().getEnddate()!=null) {
+            date = reportReq.getReport().getEnddate();
+            cal.setTime(date);//设置起时间
+            cal.add(Calendar.HOUR, 8);
+            reportReq.getReport().setEnddate(cal.getTime());
+        }
+
         List<Report> reports = mainService.queryAll(reportReq);
         model.addAttribute("itemsList", reports);
         return "report";
@@ -129,8 +144,8 @@ public class MainController {
 //        model.addAttribute("user", report);
 //        model.addAttribute("item", report);
 
-        List<Report>  itemsList = mainService.SelectAll();
-        model.addAttribute("itemsList", itemsList);
+//        List<Report>  itemsList = mainService.SelectAll();
+//        model.addAttribute("itemsList", itemsList);
         return "redirect:/report";
     }
 

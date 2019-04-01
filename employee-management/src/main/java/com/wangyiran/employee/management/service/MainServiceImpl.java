@@ -87,7 +87,7 @@ public class MainServiceImpl implements MainService {
         if(report.getUsername().equalsIgnoreCase("王一然")){
             report.setColor("white");
         } else if(report.getUsername().equalsIgnoreCase("余丹芬")) {
-            report.setColor("green");
+            report.setColor("orange");
         } else if(report.getUsername().equalsIgnoreCase("梁宁婴")) {
             report.setColor("skyblue");
         }

@@ -14,6 +14,8 @@ public class User {
 
     private Integer role;
 
+    private String color;
+
     @Column(name = "isDelete")
     private String isdelete;
 
@@ -71,6 +73,20 @@ public class User {
      */
     public void setRole(Integer role) {
         this.role = role;
+    }
+
+    /**
+     * @return color
+     */
+    public String getColor() {
+        return color;
+    }
+
+    /**
+     * @param color
+     */
+    public void setColor(String color) {
+        this.color = color;
     }
 
     /**
