@@ -42,11 +42,23 @@ public class TestReportServiceImpl implements TestReportService{
         Integer pageSize = Integer.valueOf(testReportReq.getOffset());
         PageHelper.startPage((int)pageNum, (int)pageSize);
         Example example = new Example(TestReport.class);
-        example.setOrderByClause("enddate desc");
+        example.setOrderByClause("startdate desc");
 
         Example.Criteria criteria = example.createCriteria();
         if(!(testReportReq.getTestReport().getUsername().isEmpty())) {
             criteria.andLike("username", "%" + testReportReq.getTestReport().getUsername()+ "%");
+        }
+        if(testReportReq.getTestReport().getProjectname()!=null) {
+            criteria.andLike("projectname", "%" + testReportReq.getTestReport().getProjectname()+ "%");
+        }
+        if(testReportReq.getTestReport().getPrincipal()!=null) {
+            criteria.andLike("principal", "%" + testReportReq.getTestReport().getPrincipal()+ "%");
+        }
+        if(testReportReq.getTestReport().getProblemStatus()!=null) {
+            criteria.andLike("problemStatus", "%" + testReportReq.getTestReport().getProblemStatus()+ "%");
+        }
+        if(testReportReq.getTestReport().getProblemType()!=null) {
+            criteria.andLike("problemType", "%" + testReportReq.getTestReport().getProblemType()+ "%");
         }
         if(testReportReq.getTestReport().getStartdate()!=null){
             criteria.andGreaterThanOrEqualTo("startdate", testReportReq.getTestReport().getStartdate());
@@ -55,7 +67,6 @@ public class TestReportServiceImpl implements TestReportService{
             criteria.andLessThanOrEqualTo("enddate", testReportReq.getTestReport().getEnddate());
         }
         criteria.andEqualTo("isdelete", "0");
-        //TODO 问题类型和问题状态的匹配查询
         PageInfo<TestReport> pageInfo = new PageInfo<>(testReportMapper.selectByExample(example));
         List<TestReport> testReports = pageInfo.getList();
         return testReports;

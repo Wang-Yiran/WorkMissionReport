@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +31,8 @@
             border: 1px solid #333;
             margin: 0px auto;
             text-align: center;
+            word-break: break-word;
+            white-space: pre-line;
         }
 
         a{
@@ -68,6 +71,11 @@
 </head>
 <body>
 <div><h1>测试反馈表</h1></div>
+<hr>
+<shiro:user>
+    欢迎[<shiro:principal property="username"/>]登录，<a href="/logout">退出</a>
+</shiro:user>
+<hr>
 <a href="/index">返回主页</a>
 <!--<div><a href="/report" th:href="@{/report/add}">增加任务</a></div>-->
 <div><h2>增加测试报告</h2></div>
@@ -76,30 +84,42 @@
     <form class="iform" th:action="@{/test/report/add}" th:method="post">
         <table class="report" border="1">
             <tr>
-                <th width="5%">操作</th>
-                <th width="10%">测试提交人</th>
+                <th width="3%">操作</th>
+                <th width="7%">测试提交人</th>
+                <th width="7%">项目名称</th>
                 <th width="10%">测试日期</th>
-                <th width="10%">测试模块</th>
+                <th width="8%">测试模块</th>
                 <th width="10%">问题类型</th>
                 <th width="25%">问题描述</th>
+                <th width="10%">指定完成人</th>
                 <th width="10%">问题状态</th>
-                <th width="20%">备注</th>
+                <th width="10%">备注</th>
             </tr>
             <tr>
                 <td>
                     <input type="submit" value="提交"/>
                 </td>
-                <td><input type="text" name="username" value="" /></td>
+                <td><input type="text" name="username" value="" th:value="${username}" disabled/></td>
+                <td><select name="projectname">
+                    <option value="休息室系统">休息室系统</option>
+                    <option value="开放平台">开放平台</option>
+                    <option value="其他">其他</option>
+                </select></td>
                 <!--<td><input type="text" name="startdate" value="" th:value="${#dates.format(item.startdate,'yyyy-MM-dd')}"/></td>-->
-                <td><input type="date" name="startdate" value="" /></td>
+                <td><input type="date" name="startdate" value="" th:value="${#dates.format(today,'yyyy-MM-dd')}"/></td>
                 <!--<td><input type="text" name="enddate" value="" th:value="${#dates.format(item.enddate,'yyyy-MM-dd')}"/></td>-->
                 <td><input type="text" name="module" value="" /></td>
                 <!--<td><input type="text" name="target" value="" th:value="${item.target }" /></td>-->
                 <td><input type="text" name="problemType" /></td>
                 <!--<td><input type="text" name="reporting" value="" th:value="${item.reporting }"/></td>-->
                 <td><textarea class="area" rows="" cols="" type="text" name="problemDescribe"  ></textarea></td>
-                <td align="left">
+                <td><select name="principal">
+                    <option th:each="user: ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                    <option value="其他">其他</option>
+                </select></td>
+                <td align="left" class="align-left">
                     <input type="radio" name="problemStatus" value="未解决" checked/>未解决<br>
+                    <input type="radio" name="problemStatus" value="已修改" />已修改<br>
                     <input type="radio" name="problemStatus" value="测试未通过" />测试未通过<br>
                     <input type="radio" name="problemStatus" value="测试通过" />测试通过<br>
                     <input type="radio" name="problemStatus" value="其他" />其他
@@ -121,9 +141,11 @@
                 <th width="126px">页码</th>
                 <th width="126px">每页数量</th>
                 <th width="126px">测试提交人</th>
+                <th width="126px">项目名称</th>
                 <th width="126px">提交日期</th>
-                <th width="126px">问题类型(暂未开通)</th>
-                <th width="126px">问题状态(暂未开通)</th>
+                <th width="126px">问题类型</th>
+                <th width="126px">指定完成人</th>
+                <th width="126px">问题状态</th>
             </tr>
             <tr>
                 <td>
@@ -132,13 +154,26 @@
                 <td>
                     <input type="text" name="offset" value="10" th:value="${offset}"/>
                 </td>
-                <td><input type="text" name="testReport.username" value="" /></td>
+                <td><select name="testReport.username">
+                    <option value="">其他</option>
+                    <option th:each="user: ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                </select></td>
+                <td><select name="testReport.projectname">
+                    <option value="">其他</option>
+                    <option value="休息室系统">休息室系统</option>
+                    <option value="开放平台">开放平台</option>
+                </select></td>
                 <td><input type="date" name="testReport.startdate" value="" /></td>
                 <td><input type="text" name="testReport.problemType" value="" /></td>
+                <td><select name="testReport.principal">
+                    <option value="">其他</option>
+                    <option th:each="user: ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                </select></td>
                 <td align="left"><input type="radio" name="testReport.problemStatus" value="未解决" checked/>未解决<br>
+                    <input type="radio" name="problemStatus" value="已修改" />已修改<br>
                     <input type="radio" name="testReport.problemStatus" value="测试未通过" />测试未通过<br>
                     <input type="radio" name="testReport.problemStatus" value="测试通过" />测试通过<br>
-                    <input type="radio" name="testReport.problemStatus" value="其他" />其他</td>
+                    <input type="radio" name="testReport.problemStatus" value="" />其他</td>
             </tr>
         </table>
     </form>
@@ -149,12 +184,14 @@
     <table class="report">
         <tr>
             <th width="5%">操作</th>
-            <th width="5%">序号</th>
+            <!--<th width="5%">序号</th>-->
             <th width="10%">测试提交人</th>
+            <th width="10%">项目名称</th>
             <th width="10%">测试日期</th>
             <th width="10%">测试模块</th>
-            <th width="10%">问题类型</th>
-            <th width="30%">问题描述</th>
+            <th width="5%">问题类型</th>
+            <th width="20%">问题描述</th>
+            <th width="10%">指定完成人</th>
             <th width="10%">问题状态</th>
             <th width="10%">备注</th>
         </tr>
@@ -165,12 +202,14 @@
         <tr th:each="item: ${itemsList} ">
             <td ><a href="/report" th:href="@{/test/report/edit(id=${item.id})}">修改</a><br/><br/>
                 <a href="/report" th:href="@{/test/report/delete(id=${item.id})}">删除</a></td>
-            <td th:text="${item.id}"></td>
+            <!--<td th:text="${item.id}"></td>-->
             <td th:text="${item.username}" th:bgcolor="${item.color}"></td>
+            <td th:text="${item.projectname}" ></td>
             <td th:text="${#calendars.format(item.startdate,'yyyy-MM-dd')}"></td>
             <td th:text="${item.module}"></td>
             <td th:text="${item.problemType }"></td>
             <td class="align-left" th:text="${item.problemDescribe }"></td>
+            <td th:text="${item.principal }"></td>
             <td th:text="${item.problemStatus }"></td>
             <td th:text="${item.remark}"></td>
         </tr>

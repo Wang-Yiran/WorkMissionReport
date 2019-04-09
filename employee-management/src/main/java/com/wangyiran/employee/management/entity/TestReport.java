@@ -11,6 +11,11 @@ public class TestReport {
 
     private String username;
 
+    /**
+     * 项目名称
+     */
+    private String projectname;
+
     private Date startdate;
 
     private Date enddate;
@@ -30,6 +35,11 @@ public class TestReport {
 
     @Column(name = "isDelete")
     private String isdelete;
+
+    /**
+     * 负责人
+     */
+    private String principal;
 
     /**
      * 问题状态
@@ -71,6 +81,24 @@ public class TestReport {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * 获取项目名称
+     *
+     * @return projectname - 项目名称
+     */
+    public String getProjectname() {
+        return projectname;
+    }
+
+    /**
+     * 设置项目名称
+     *
+     * @param projectname 项目名称
+     */
+    public void setProjectname(String projectname) {
+        this.projectname = projectname;
     }
 
     /**
@@ -163,6 +191,24 @@ public class TestReport {
      */
     public void setIsdelete(String isdelete) {
         this.isdelete = isdelete;
+    }
+
+    /**
+     * 获取负责人
+     *
+     * @return principal - 负责人
+     */
+    public String getPrincipal() {
+        return principal;
+    }
+
+    /**
+     * 设置负责人
+     *
+     * @param principal 负责人
+     */
+    public void setPrincipal(String principal) {
+        this.principal = principal;
     }
 
     /**

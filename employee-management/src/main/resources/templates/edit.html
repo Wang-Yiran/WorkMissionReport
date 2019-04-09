@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>修改任务</title>
@@ -41,6 +42,11 @@
 </head>
 <body>
 <div><h1>修改任务完成情况</h1></div>
+<hr>
+<shiro:user>
+    欢迎[<shiro:principal property="username"/>]登录，<a href="/logout">退出</a>
+</shiro:user>
+<hr>
 <div>
     <div><a href="/report">返回</a></div>
     <form class="iform" th:action="@{/report/edit}" th:method="post" th:object="${item}">

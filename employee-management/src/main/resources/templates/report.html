@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -71,11 +72,17 @@
 </head>
 <body>
 <div><h1>工作任务表</h1></div>
+<hr>
+<shiro:user>
+    欢迎[<shiro:principal property="username"/>]登录，<a href="/logout">退出</a>
+</shiro:user>
+<hr>
 <a href="/index">返回主页</a>
 <!--<div><a href="/report" th:href="@{/report/add}">增加任务</a></div>-->
-<div><h2>增加任务</h2></div>
 
-<div>
+<div shiro:hasPermission="user:reportAddAndDelete">
+    <div><h2>增加任务</h2></div>
+
     <form class="iform" th:action="@{/report/add}" th:method="post">
         <table class="report" border="1">
             <tr>
@@ -92,7 +99,10 @@
                 <td>
                     <input type="submit" value="提交"/>
                 </td>
-                <td><input type="text" name="username" value="" /></td>
+                <!--<td><input type="text" name="username" value="" th:value="${username}" disabled/></td>-->
+                <td><select name="username">
+                    <option th:each="user: ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                </select></td>
                 <!--<td><input type="text" name="startdate" value="" th:value="${#dates.format(item.startdate,'yyyy-MM-dd')}"/></td>-->
                 <td><input type="date" name="startdate" value="" /></td>
                 <!--<td><input type="text" name="enddate" value="" th:value="${#dates.format(item.enddate,'yyyy-MM-dd')}"/></td>-->
@@ -130,7 +140,10 @@
                 <td class="query">
                     <input type="text" name="offset" value="10" th:value="${offset}"/>
                 </td>
-                <td class="query"><input type="text" name="report.username" value="" /></td>
+                <td><select name="report.username">
+                    <option value="">其他</option>
+                    <option th:each="user: ${users}" th:value="${user.username}" th:text="${user.username}"></option>
+                </select></td>
                 <td class="query"><input type="date" name="report.startdate" value="" /></td>
                 <td class="query"><input type="date" name="report.enddate" value="" /></td>
                 <td class="query"><input type="text" name="report.finishingRate" value="" /></td>
@@ -158,7 +171,8 @@
         <!--</select>-->
         <tr th:each="item: ${itemsList } ">
             <td ><a href="/report" th:href="@{/report/edit(id=${item.id})}">修改</a><br/><br/>
-                <a href="/report" th:href="@{/report/delete(id=${item.id})}">删除</a></td>
+                <shiro:hasPermission name="user:reportAddAndDelete"><a href="/report" th:href="@{/report/delete(id=${item.id})}">删除</a></shiro:hasPermission>
+            </td>
             <!--<td th:text="{item.id}"></td>-->
             <td th:text="${item.username }" th:bgcolor="${item.color}"></td>
             <td th:text="${#calendars.format(item.startdate,'yyyy-MM-dd')}"></td>

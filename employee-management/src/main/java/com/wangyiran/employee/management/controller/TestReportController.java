@@ -2,12 +2,17 @@ package com.wangyiran.employee.management.controller;
 
 import com.wangyiran.employee.management.entity.Report;
 import com.wangyiran.employee.management.entity.TestReport;
+import com.wangyiran.employee.management.entity.User;
+import com.wangyiran.employee.management.mapper.UserMapper;
 import com.wangyiran.employee.management.po.ReportReq;
 import com.wangyiran.employee.management.po.TestReportReq;
 import com.wangyiran.employee.management.service.MainService;
 import com.wangyiran.employee.management.service.TestReportService;
+import com.wangyiran.employee.management.service.UserService;
+import com.wangyiran.employee.management.service.UserServiceImpl;
 import com.wangyiran.employee.management.util.DateAdd8Hour;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +37,26 @@ public class TestReportController {
     @Autowired
     private TestReportService TestReportService;
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = {"/report"}, method = RequestMethod.GET)
     public String report(Model model){
         List<TestReport> itemsList = TestReportService.queryAll();
+        //查找目前用户名
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("username",user.getUsername());
         model.addAttribute("itemsList", itemsList);
 
         model.addAttribute("page","1");
         model.addAttribute("offset","10");
+        //返回当前日期
+        Date today = new Date();
+        model.addAttribute("today", today);
+
+        //返回当前的可选指定完成人
+        List<User> users = userService.queryAll();
+        model.addAttribute("users", users);
         return "testreport/report";
     }
 
@@ -145,6 +163,16 @@ public class TestReportController {
 
         List<TestReport> testReports = TestReportService.queryAll(testReportReq);
         model.addAttribute("itemsList", testReports);
+
+        //查找目前用户名
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        model.addAttribute("username",user.getUsername());
+        //返回当前日期
+        Date today = new Date();
+        model.addAttribute("today", today);
+        //返回当前的可选指定完成人
+        List<User> users = userService.queryAll();
+        model.addAttribute("users", users);
         return "testreport/report";
     }
 }

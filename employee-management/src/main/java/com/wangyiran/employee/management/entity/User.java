@@ -10,6 +10,8 @@ public class User {
 
     private String username;
 
+    private String user;
+
     private String password;
 
     private Integer role;
@@ -45,6 +47,20 @@ public class User {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * @return user
+     */
+    public String getUser() {
+        return user;
+    }
+
+    /**
+     * @param user
+     */
+    public void setUser(String user) {
+        this.user = user;
     }
 
     /**

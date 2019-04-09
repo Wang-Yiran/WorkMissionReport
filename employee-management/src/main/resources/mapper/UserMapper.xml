@@ -7,6 +7,7 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="role" jdbcType="INTEGER" property="role" />
     <result column="color" jdbcType="VARCHAR" property="color" />

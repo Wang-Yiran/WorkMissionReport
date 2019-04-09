@@ -38,7 +38,7 @@ public class MainServiceImpl implements MainService {
         Integer pageSize = Integer.valueOf(reportReq.getOffset());
         PageHelper.startPage((int)pageNum, (int)pageSize);
         Example example = new Example(Report.class);
-        example.setOrderByClause("enddate desc");
+        example.setOrderByClause("enddate desc, username asc");
 
         Example.Criteria criteria = example.createCriteria();
         if(!(reportReq.getReport().getUsername().isEmpty())) {

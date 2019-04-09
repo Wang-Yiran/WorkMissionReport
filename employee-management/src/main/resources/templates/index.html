@@ -1,5 +1,6 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,18 +22,42 @@
     </style>
 </head>
 <body>
-  <span class="span" th:each="user:${users}" th:text="${user.username}">Hello default Admin</span>
-    <span>你们好！</span>
-</body>
-  <ul>
-    <li><a href="/report">每周工作汇报</a></li>
-      <li><a href="/test/report">测试工作汇报</a></li>
-  </ul>
+  <!--<span class="span" th:each="user:${users}" th:text="${user.username}">Hello default Admin</span>-->
+    <!--<span>你们好！</span>-->
+  <hr>
+  <shiro:user>
+      [<shiro:principal property="username"/>]您好！<a href="/logout">注销</a> <a href="/user">修改密码</a>
+      <hr>
+      <ul>
+          <li><a href="/report">每周工作汇报</a></li>
+          <li><a href="/test/report">测试工作汇报</a></li>
+      </ul>
+  </shiro:user>
+  <shiro:guest>
+  <div th:if="${login}">
+      <form action="/index" method="post">
+          <div>
+              用户名:&nbsp;&nbsp;<input type="text" name="user"/><br/>
+              密&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;<input type="password" name="password"/><br/>
+              <input type="submit" value="登陆"><span th:text="${msg}"></span>
+          </div>
+      </form>
+  </div>
+  </shiro:guest>
+  <hr>
 
 <div><h3>更新日志</h3>
     <p>1.1版本</p>
     <ul>
         <li>1.1.0:增加了测试报告模块beta，欢迎协助测试</li>
+        <li>1.1.1:增加了用户登陆功能</li>
+        <li>1.1.2:增加了用户权限分配，只有部门经理可以增加和删除report的内容，员工只有修改report的权限</li>
+        <li>1.1.3beta:<ul>
+            <li>优化了report、testReport排序</li>
+            <li>在新增数据时，自动填充提交人，不可修改</li>
+            <li>优化查询功能，现在只能查询研发部用户名称里的人了！并且查询功能均已实现</li>
+            <li>修改页面也根据测试报告内容进行了添加</li>
+        </ul></li>
     </ul>
     <p>1.0版本</p>
     <ul>

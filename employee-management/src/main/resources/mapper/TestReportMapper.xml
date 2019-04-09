@@ -7,12 +7,14 @@
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="projectname" jdbcType="VARCHAR" property="projectname" />
     <result column="startdate" jdbcType="DATE" property="startdate" />
     <result column="enddate" jdbcType="DATE" property="enddate" />
     <result column="module" jdbcType="VARCHAR" property="module" />
     <result column="problem_type" jdbcType="VARCHAR" property="problemType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="isDelete" jdbcType="CHAR" property="isdelete" />
+    <result column="principal" jdbcType="VARCHAR" property="principal" />
     <result column="problem_status" jdbcType="VARCHAR" property="problemStatus" />
     <result column="color" jdbcType="VARCHAR" property="color" />
     <result column="problem_describe" jdbcType="LONGVARCHAR" property="problemDescribe" />

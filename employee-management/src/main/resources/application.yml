@@ -1,8 +1,9 @@
 spring:
   datasource:
     druid:
-      #url: jdbc:mysql://172.16.175.135:3306/management?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+#      url: jdbc:mysql://172.16.175.135:3306/management?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       url: jdbc:mysql://192.168.0.166:3306/management?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+#      url: jdbc:mysql://192.168.0.196:3306/management?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       username: zero
       password: zero
       initial-size: 1
