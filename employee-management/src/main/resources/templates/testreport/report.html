@@ -73,7 +73,7 @@
 <div><h1>测试反馈表</h1></div>
 <hr>
 <shiro:user>
-    欢迎[<shiro:principal property="username"/>]登录，<a href="/logout">退出</a>
+    <shiro:principal property="username"/>]您好！<a href="/logout">注销</a> <a href="/user">修改密码</a>
 </shiro:user>
 <hr>
 <a href="/index">返回主页</a>
@@ -99,7 +99,7 @@
                 <td>
                     <input type="submit" value="提交"/>
                 </td>
-                <td><input type="text" name="username" value="" th:value="${username}" disabled/></td>
+                <td><input type="text" name="username" value="" th:value="${username}" readonly/></td>
                 <td><select name="projectname">
                     <option value="休息室系统">休息室系统</option>
                     <option value="开放平台">开放平台</option>
@@ -181,7 +181,7 @@
 
 <div><h2>测试报告列表</h2></div>
 <div class="table">
-    <table class="report">
+    <table class="report" id="report_table">
         <tr>
             <th width="5%">操作</th>
             <!--<th width="5%">序号</th>-->
@@ -203,7 +203,7 @@
             <td ><a href="/report" th:href="@{/test/report/edit(id=${item.id})}">修改</a><br/><br/>
                 <a href="/report" th:href="@{/test/report/delete(id=${item.id})}">删除</a></td>
             <!--<td th:text="${item.id}"></td>-->
-            <td th:text="${item.username}" th:bgcolor="${item.color}"></td>
+            <td th:text="${item.username}"></td>
             <td th:text="${item.projectname}" ></td>
             <td th:text="${#calendars.format(item.startdate,'yyyy-MM-dd')}"></td>
             <td th:text="${item.module}"></td>
@@ -216,5 +216,43 @@
     </table>
   <!--<span th:text="${user.username}">Hello default Admin</span>-->
 </div>
+<script type="text/javascript">
+    window.onload = function() {
+        // 检查第二列
+        var column_num = 9;
+
+        // 获取元素
+        var table = document.getElementById("report_table"),
+            rows = table.getElementsByTagName("tr");
+
+        // 循环表格
+        for(var i = 0; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td");
+            for(var c = 0; c < cells.length; c++) {
+                // 对应列
+                console.debug();
+                if(c + 1 === column_num){
+                    // 判断是否小于 0
+                    if(cells[c].innerHTML === "未解决" || cells[c].innerHTML === "测试未通过") {
+                        // 两者均成立，改变颜色
+                        rows[i].style.background = "#0f0";
+                        // 检查下一行
+                        break;
+                    }
+                    else if (cells[c].innerHTML === "测试通过"){
+                        rows[i].style.background = "#777";
+                        // 检查下一行
+                        break;
+                    }
+                    else if(cells[c].innerHTML === "已修改"){
+                        rows[i].style.background = "#ffff7d";
+                        // 检查下一行
+                        break;
+                    }
+                }
+            }
+        }
+    }
+</script>
 </body>
 </html>

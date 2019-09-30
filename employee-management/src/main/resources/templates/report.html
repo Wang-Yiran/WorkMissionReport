@@ -69,17 +69,224 @@
         }
 
     </style>
+<!--    <script src="lib/jquery-1.12.4.js"></script>-->
+<!--    <script-->
+<!--            src="http://code.jquery.com/jquery-1.12.4.js"-->
+<!--            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="-->
+<!--            crossorigin="anonymous"></script>-->
+    <script type="text/javascript" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+    <script type="text/javascript">
+        $(function(){
+            var showFlag = true;
+            markup();
+
+            $('#finishing_filtration').click(function () {
+                // console.log(showFlag, "hahaha");
+               if(showFlag == true){
+                   showFlag = false;
+                   cleanMarkup();
+                   $('#finishing_filtration').attr('value', '检查');
+               } else{
+                   showFlag = true;
+                   markup();
+                   $('#finishing_filtration').attr('value', '不检查');
+               }
+            });
+        });
+        function markup (){
+            var itemList = $('.line_item');
+            var today = new Date();
+            for(i=0;i<itemList.length;i++){
+                var end = $(itemList[i]).children('.enddate');
+                var rate = $(itemList[i]).children('.finishing_rate');
+                var today = new Date();
+                // console.log(getDate(end.text()), rate.text());
+                if(getDate(end.text()) < today && parseInt(rate.text()) < 100){
+                    rate.css("backgroundColor", "green");
+                }
+
+            }
+        }
+        function cleanMarkup (){
+            var itemList = $('.line_item');
+            var today = new Date();
+            for(i=0;i<itemList.length;i++){
+                var end = $(itemList[i]).children('.enddate');
+                var rate = $(itemList[i]).children('.finishing_rate');
+                // console.log(getDate(end.text()), rate.text());
+                if(getDate(end.text()) < today && parseInt(rate.text()) < 100){
+                    rate.css("backgroundColor", "white");
+                }
+
+            }
+        }
+
+        //时钟
+        window.onload = function () {
+            var oDiv1 = document.getElementById('div1');
+            timego();
+            setInterval(timego, 1000);
+            // var now = new Date();
+            function timego() {
+                var now = new Date();
+                var year = now.getFullYear();
+                var month = now.getMonth() + 1;
+                var date = now.getDate();
+                var week = now.getDay();
+                var hour = now.getHours();
+                var minute = now.getMinutes();
+                var second = now.getSeconds();
+                oDiv1.innerHTML = '当前时间是：' + year + '年' + month + '月' + date + '日' + toweek(week) + ' ' + todou(hour) + ':' + todou(minute) + ':' + todou(second);
+            }
+            function toweek(week) {
+                switch (week) {
+                    case 1 :return '星期一';
+                    case 2 :return '星期二';
+                    case 3 :return '星期三';
+                    case 4 :return '星期四';
+                    case 5 :return '星期五';
+                    case 6 :return '星期六';
+                    case 0 :return '星期日';
+
+                }
+                return '???';
+            }
+            function todou(hour) {
+                if(hour<10){
+                    return '0' + hour;
+                }
+                else{
+                    return hour;
+                }
+            }
+        };
+
+        function Format(now,mask)
+        {
+            var d = now;
+            var zeroize = function (value, length)
+            {
+                if (!length) length = 2;
+                value = String(value);
+                for (var i = 0, zeros = ''; i < (length - value.length); i++)
+                {
+                    zeros += '0';
+                }
+                return zeros + value;
+            };
+
+            return mask.replace(/"[^"]*"|'[^']*'|\b(?:d{1,4}|m{1,4}|yy(?:yy)?|([hHMstT])\1?|[lLZ])\b/g, function ($0)
+            {
+                switch ($0)
+                {
+                    case 'd': return d.getDate();
+                    case 'dd': return zeroize(d.getDate());
+                    case 'ddd': return ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat'][d.getDay()];
+                    case 'dddd': return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getDay()];
+                    case 'M': return d.getMonth() + 1;
+                    case 'MM': return zeroize(d.getMonth() + 1);
+                    case 'MMM': return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()];
+                    case 'MMMM': return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getMonth()];
+                    case 'yy': return String(d.getFullYear()).substr(2);
+                    case 'yyyy': return d.getFullYear();
+                    case 'h': return d.getHours() % 12 || 12;
+                    case 'hh': return zeroize(d.getHours() % 12 || 12);
+                    case 'H': return d.getHours();
+                    case 'HH': return zeroize(d.getHours());
+                    case 'm': return d.getMinutes();
+                    case 'mm': return zeroize(d.getMinutes());
+                    case 's': return d.getSeconds();
+                    case 'ss': return zeroize(d.getSeconds());
+                    case 'l': return zeroize(d.getMilliseconds(), 3);
+                    case 'L': var m = d.getMilliseconds();
+                        if (m > 99) m = Math.round(m / 10);
+                        return zeroize(m);
+                    case 'tt': return d.getHours() < 12 ? 'am' : 'pm';
+                    case 'TT': return d.getHours() < 12 ? 'AM' : 'PM';
+                    case 'Z': return d.toUTCString().match(/[A-Z]+$/);
+                    // Return quoted strings with the surrounding quotes removed
+                    default: return $0.substr(1, $0.length - 2);
+                }
+            });
+        };
+
+        //字符串转日期格式，strDate要转为日期格式的字符串
+        function getDate(strDate) {
+            var date = eval('new Date(' + strDate.replace(/\d+(?=-[^-]+$)/,
+                function(a) {
+                    return parseInt(a, 10) - 1;
+                }).match(/\d+/g) + ')');
+            // console.log(date);
+            return date;
+        };
+
+        function nextPage() {
+            try {
+                //可能会导致错误的代码
+                var pageNow = $("#page-now").val();
+                if(pageNow) {
+                    var pageAfter = parseInt(pageNow) + 1;
+                }
+                $("#page-now").val(pageAfter.toString());
+            } catch (error) {
+                //在错误发生时怎么处理
+                alert("当前输入页码有误");
+                $("#page-now").val("1");
+            }
+
+            $.post({
+                url: "/report/find",
+                type: "post",
+                data: $("#find-form").serialize(),
+                success: function (data) {
+                    // alert('成功');
+                    // console.log(data);
+                    $("html").html(data);
+                }
+            });
+        }
+        function postPage() {
+            try {
+                //可能会导致错误的代码
+                var pageNow = $("#page-now").val();
+                if(pageNow) {
+                    var pageAfter = parseInt(pageNow) - 1;
+                    if(parseInt(pageAfter) < 1){
+                        alert("页码不能小于第一页");
+                        return;
+                    }
+                }
+                $("#page-now").val(pageAfter.toString());
+            } catch (error) {
+                //在错误发生时怎么处理
+                alert("当前输入页码有误");
+                $("#page-now").val("1");
+            }
+
+            $.post({
+                url: "/report/find",
+                type: "post",
+                data: $("#find-form").serialize(),
+                success: function (data) {
+                    // alert('成功');
+                    // console.log(data);
+                    $("html").html(data);
+                }
+            });
+        }
+    </script>
+
 </head>
 <body>
 <div><h1>工作任务表</h1></div>
+<div id="div1"></div>
 <hr>
 <shiro:user>
-    欢迎[<shiro:principal property="username"/>]登录，<a href="/logout">退出</a>
+    <shiro:principal property="username"/>]您好！<a href="/logout">注销</a> <a href="/user">修改密码</a>
 </shiro:user>
 <hr>
 <a href="/index">返回主页</a>
 <!--<div><a href="/report" th:href="@{/report/add}">增加任务</a></div>-->
-
 <div shiro:hasPermission="user:reportAddAndDelete">
     <div><h2>增加任务</h2></div>
 
@@ -120,9 +327,12 @@
 </div>
 <div>
     <h2>查询</h2>
+    </br><button th:text="上一页" onclick="postPage()"></button>
+    &nbsp;&nbsp;共<div th:text="${total}" style="display: inline"></div>条&nbsp;&nbsp;
+    <button th:text="下一页" onclick="nextPage()"></button>
 </div>
 <div>
-    <form class="iform" th:action="@{/report/find}" th:method="post">
+    <form class="iform" th:action="@{/report/find}" th:method="post" id="find-form">
         <table class="report-query" border="1">
             <tr><input type="submit" value="查询"/></tr>
             <tr>
@@ -131,11 +341,11 @@
                 <th class="query">姓名</th>
                 <th class="query">起始日期</th>
                 <th class="query">截止日期</th>
-                <th class="query">完成率（暂未开通）</th>
+                <th class="query">完成率</th>
             </tr>
             <tr>
                 <td class="query">
-                    <input type="text" name="page" value="1" th:value="${page}"/>
+                    <input type="text" name="page" value="1" th:value="${page}" id="page-now"/>
                 </td>
                 <td class="query">
                     <input type="text" name="offset" value="10" th:value="${offset}"/>
@@ -146,7 +356,8 @@
                 </select></td>
                 <td class="query"><input type="date" name="report.startdate" value="" /></td>
                 <td class="query"><input type="date" name="report.enddate" value="" /></td>
-                <td class="query"><input type="text" name="report.finishingRate" value="" /></td>
+                <td class="query"><input type="button" value="不检查" id="finishing_filtration"/></td>
+<!--                <input type="text" name="report.finishingRate" value="" />-->
             </tr>
         </table>
     </form>
@@ -169,16 +380,16 @@
         <!--<select lay-verify="required" name="class" lay-filter="column">-->
             <!--<option   th:each="items:${itemsList}" th:value="${items.username}" th:text="${items.target}"></option>-->
         <!--</select>-->
-        <tr th:each="item: ${itemsList } ">
+        <tr th:each="item: ${itemsList } " class="line_item">
             <td ><a href="/report" th:href="@{/report/edit(id=${item.id})}">修改</a><br/><br/>
                 <shiro:hasPermission name="user:reportAddAndDelete"><a href="/report" th:href="@{/report/delete(id=${item.id})}">删除</a></shiro:hasPermission>
             </td>
             <!--<td th:text="{item.id}"></td>-->
             <td th:text="${item.username }" th:bgcolor="${item.color}"></td>
             <td th:text="${#calendars.format(item.startdate,'yyyy-MM-dd')}"></td>
-            <td th:text="${#calendars.format(item.enddate,'yyyy-MM-dd')}"></td>
+            <td th:text="${#calendars.format(item.enddate,'yyyy-MM-dd')}" class="enddate"></td>
             <td class="align-left" th:text="${item.target }"></td>
-            <td th:text="${item.finishingRate }" ></td>
+            <td th:text="${item.finishingRate }" class="finishing_rate"></td>
             <td class="align-left" th:text="${item.reporting }"></td>
             <td th:text="${item.remark}"></td>
         </tr>

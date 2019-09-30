@@ -2,6 +2,7 @@ package com.wangyiran.employee.management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import tk.mybatis.spring.annotation.MapperScan;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +10,7 @@ import java.util.TimeZone;
 
 @SpringBootApplication
 @MapperScan(basePackages = "com.wangyiran.employee.management.mapper")
+@EnableCaching
 public class EmployeeManagementApplication {
 
     public static void main(String[] args) {

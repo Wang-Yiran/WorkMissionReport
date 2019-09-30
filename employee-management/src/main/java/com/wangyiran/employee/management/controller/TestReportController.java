@@ -13,6 +13,8 @@ import com.wangyiran.employee.management.service.UserServiceImpl;
 import com.wangyiran.employee.management.util.DateAdd8Hour;
 import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/test")
 public class TestReportController {
+
+    protected static Logger logger = LoggerFactory.getLogger(TestReportController.class);
 
     @Autowired
     private TestReportService TestReportService;
@@ -77,6 +81,11 @@ public class TestReportController {
         if(testReport.getId() == null) {
             return "";
         }
+        //日志记录
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        logger.info("当前请求的url:/test/report/edit");
+        logger.info("当前请求人:" + user.getUsername());
+        logger.info("请求参数:" + testReport.toString());
         //时间处理工具 获取的日期加了8小时，要加8小时，存入的世界时间才是当天
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
@@ -138,6 +147,11 @@ public class TestReportController {
     public String reportAdd(Model model,@RequestParam String id) {
         if(id==null)
             return "";
+        //日志记录
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        logger.info("当前请求的url:/test/report/edit");
+        logger.info("当前请求人:" + user.getUsername());
+        logger.info("请求删除的id :" + id);
         TestReportService.deleteById(Integer.valueOf(id));
         List<TestReport>  itemsList = TestReportService.queryAll();
         model.addAttribute("itemsList", itemsList);

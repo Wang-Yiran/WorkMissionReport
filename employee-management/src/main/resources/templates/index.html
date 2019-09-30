@@ -20,6 +20,32 @@
             line-height: 36px;
         }
     </style>
+
+<!--    <script-->
+<!--            src="http://code.jquery.com/jquery-1.12.4.js"-->
+<!--            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="-->
+<!--            crossorigin="anonymous"></script>-->
+    <script type="text/javascript" th:src="@{/js/jquery-1.12.4.min.js}"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            // mouseover:鼠标经过事件
+            //  onmouseout:鼠标离开事件
+            //  mouseenter:鼠标进入事件
+            //  mouseleave:鼠标离开事件
+
+            var $li = $('.wrap>ul>li');
+
+            $li.mouseenter(function () {
+                $(this).children("ul").show();
+                // console.log("enter");
+            });
+            $li.mouseleave(function () {
+                $(this).children("ul").hide();
+                // console.log("leave");
+            });
+        });
+    </script>
 </head>
 <body>
   <!--<span class="span" th:each="user:${users}" th:text="${user.username}">Hello default Admin</span>-->
@@ -39,14 +65,14 @@
           <div>
               用户名:&nbsp;&nbsp;<input type="text" name="user"/><br/>
               密&nbsp;&nbsp;&nbsp;码:&nbsp;&nbsp;<input type="password" name="password"/><br/>
-              <input type="submit" value="登陆"><span th:text="${msg}"></span>
+              <input type="submit" value="登录"><span th:text="${msg}"></span>
           </div>
       </form>
   </div>
   </shiro:guest>
   <hr>
-
-<div><h3>更新日志</h3>
+<div><span style="color:red;font-size: 28px;font-style: italic;">注意！如果您以非法方式登录，将承担相应法律责任！<br>Warning! If you log on by illegal means, you will be held legally responsible! </span></div><br>
+<div class="wrap"><h3>更新日志</h3>
     <p>1.1版本</p>
     <ul>
         <li>1.1.0:增加了测试报告模块beta，欢迎协助测试</li>
@@ -58,6 +84,14 @@
             <li>优化查询功能，现在只能查询研发部用户名称里的人了！并且查询功能均已实现</li>
             <li>修改页面也根据测试报告内容进行了添加</li>
         </ul></li>
+        <li>1.1.3:修正form表单disabled的不能提交的问题，已经修改为readonly</li>
+        <li>1.1.4:增加测试报告界面的行颜色，采用原生js渲染。</li>
+        <li>1.1.5:数个新功能在开发中！
+            <ul>
+                <li>增加一个报告页面的时钟，增加回报工作的完成率查询，可以筛选到期但完成率非100%的数据了！</li>
+                <li>分页功能实现，现在可以分页查看了</li>
+            </ul></li>
+        <li>1.1.6:增加MVC的拦截器功能，现在可以更好的记录日志了。</li>
     </ul>
     <p>1.0版本</p>
     <ul>

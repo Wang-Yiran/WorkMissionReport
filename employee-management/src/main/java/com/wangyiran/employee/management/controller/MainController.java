@@ -43,7 +43,6 @@ public class MainController {
 
     @RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
     public String index(Model model){
-
         model.addAttribute("login",true);
         return "index";
     }
@@ -130,6 +129,7 @@ public class MainController {
         //返回当前的可选指定完成人
         List<User> users = userService.queryAll();
         model.addAttribute("users", users);
+        model.addAttribute("total", mainService.countAll());
         return "report";
     }
 
@@ -159,6 +159,8 @@ public class MainController {
         //返回当前的可选指定完成人
         List<User> users = userService.queryAll();
         model.addAttribute("users", users);
+        model.addAttribute("users", users);
+        model.addAttribute("total", mainService.countAll(reportReq));
         return "report";
     }
 

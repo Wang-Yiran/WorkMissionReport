@@ -26,4 +26,8 @@ public interface MainService {
     public void add(Report report);
 
     void deleteById(Integer id);
+
+    Integer countAll(ReportReq reportReq);
+
+    Integer countAll();
 }

@@ -68,6 +68,32 @@ public class MainServiceImpl implements MainService {
         return queryAll(reportReq);
 
     }
+    public Integer countAll(ReportReq reportReq){
+        Example example = new Example(Report.class);
+        example.setOrderByClause("enddate desc, username asc");
+
+        Example.Criteria criteria = example.createCriteria();
+        if(!(reportReq.getReport().getUsername().isEmpty())) {
+            criteria.andLike("username", "%" + reportReq.getReport().getUsername()+ "%");
+        }
+        if(reportReq.getReport().getStartdate()!=null){
+            criteria.andGreaterThanOrEqualTo("startdate", reportReq.getReport().getStartdate());
+        }
+        if(reportReq.getReport().getEnddate()!=null){
+            criteria.andLessThanOrEqualTo("enddate", reportReq.getReport().getEnddate());
+        }
+        criteria.andEqualTo("isdelete", "0");
+        return reportMapper.selectCountByExample(example);
+    }
+    public Integer countAll(){
+        //构造默认查询条件
+        ReportReq reportReq = new ReportReq();
+        reportReq.setPage("1");
+        reportReq.setOffset("10");
+        reportReq.setReport(new Report());
+        reportReq.getReport().setUsername("");
+        return countAll(reportReq);
+    }
     public Report SelectById(Integer id) {
         Report report = reportMapper.selectByPrimaryKey(id);
         if(report == null) {

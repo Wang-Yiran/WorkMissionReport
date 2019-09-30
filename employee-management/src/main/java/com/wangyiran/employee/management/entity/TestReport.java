@@ -260,4 +260,23 @@ public class TestReport {
     public void setProblemDescribe(String problemDescribe) {
         this.problemDescribe = problemDescribe;
     }
+
+    @Override
+    public String toString() {
+        return "TestReport{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", projectname='" + projectname + '\'' +
+                ", startdate=" + startdate +
+                ", enddate=" + enddate +
+                ", module='" + module + '\'' +
+                ", problemType='" + problemType + '\'' +
+                ", remark='" + remark + '\'' +
+                ", isdelete='" + isdelete + '\'' +
+                ", principal='" + principal + '\'' +
+                ", problemStatus='" + problemStatus + '\'' +
+                ", color='" + color + '\'' +
+                ", problemDescribe='" + problemDescribe + '\'' +
+                '}';
+    }
 }
